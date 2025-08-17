@@ -121,6 +121,7 @@ export class Step {
     if (this.tour.getCurrentStepIndex() > 0) {
       const prevButton = document.createElement('button');
       prevButton.className = 'boardwalk-btn boardwalk-btn-prev boardwalk-focus-visible';
+      prevButton.setAttribute('data-boardwalk-focusable', 'true');
       prevButton.textContent = 'Previous';
       prevButton.setAttribute('aria-label', 'Go to previous step');
       prevButton.addEventListener('click', () => this.tour.prevStep());
@@ -132,7 +133,7 @@ export class Step {
       // Next/Finish button
       const nextButton = document.createElement('button');
       nextButton.className = 'boardwalk-btn boardwalk-btn-next boardwalk-focus-visible';
-      
+      nextButton.setAttribute('data-boardwalk-focusable', 'true');
       if (this.tour.getCurrentStepIndex() < this.tour.getTotalSteps() - 1) {
         nextButton.textContent = 'Next';
         nextButton.setAttribute('aria-label', 'Go to next step');

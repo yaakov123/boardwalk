@@ -24,6 +24,7 @@ export class FocusManager {
   private firstFocusableElement: HTMLElement | null = null;
   private lastFocusableElement: HTMLElement | null = null;
   private active: boolean = false;
+  private FOCUSABLE_ATTRIBUTE = 'data-boardwalk-focusable';
 
   /**
    * Create a focus manager for a container
@@ -39,7 +40,7 @@ export class FocusManager {
    */
   public updateFocusableElements(): void {
     // Common focusable selectors
-    const selector = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const selector = `[${this.FOCUSABLE_ATTRIBUTE}]`;
     
     // Get all focusable elements
     const elements = Array.from(this.container.querySelectorAll(selector)) as HTMLElement[];
@@ -49,6 +50,7 @@ export class FocusManager {
       const style = window.getComputedStyle(el);
       return style.display !== 'none' && style.visibility !== 'hidden' && el.offsetParent !== null;
     });
+
     
     // Set first and last focusable elements
     this.firstFocusableElement = this.focusableElements[0] || null;

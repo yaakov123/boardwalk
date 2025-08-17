@@ -72,6 +72,7 @@ export class Tour {
     // Create skip link for accessibility
     const skipLink = document.createElement('a');
     skipLink.className = 'boardwalk-skip-link boardwalk-focus-visible';
+    skipLink.setAttribute('data-boardwalk-focusable', 'true');
     skipLink.textContent = 'Skip tour';
     skipLink.href = '#';
     skipLink.setAttribute('aria-label', 'Skip tour');
@@ -223,8 +224,10 @@ export class Tour {
     if (this.focusManager) {
       setTimeout(() => {
         this.focusManager?.updateFocusableElements();
-      }, 100); // Short delay to ensure DOM is updated
+        this.container?.focus();
+      }, 500); // Short delay to ensure DOM is updated
     }
+
     
     return this;
   }
