@@ -1,0 +1,36 @@
+/**
+ * Boardwalk Modern Theme
+ * 
+ * This theme uses a purple/violet color scheme with clean, modern aesthetics.
+ */
+
+.boardwalk-theme-modern {
+  /* Color System */
+  --boardwalk-primary-color: #6c5ce7;
+  --boardwalk-primary-color-hover: #5d4ed6;
+  --boardwalk-primary-color-active: #4e3fc5;
+  --boardwalk-secondary-color: #f5f6fa;
+  --boardwalk-secondary-color-hover: #e5e6ea;
+  --boardwalk-secondary-color-active: #d5d6da;
+  --boardwalk-text-color: #2d3436;
+  --boardwalk-text-color-secondary: #636e72;
+  --boardwalk-text-color-muted: #b2bec3;
+  --boardwalk-bg-color: #ffffff;
+  --boardwalk-border-color: #dfe6e9;
+  --boardwalk-overlay-color: rgba(45, 52, 54, 0.5);
+  --boardwalk-highlight-color: rgba(108, 92, 231, 0.2);
+  
+  /* Typography */
+  --boardwalk-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Borders */
+  --boardwalk-border-radius-sm: 6px;
+  --boardwalk-border-radius-md: 8px;
+  --boardwalk-border-radius-lg: 12px;
+  
+  /* Shadows */
+  --boardwalk-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --boardwalk-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --boardwalk-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --boardwalk-shadow-tooltip: 0 8px 30px rgba(0, 0, 0, 0.12);
+}

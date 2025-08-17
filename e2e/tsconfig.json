@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node", "@playwright/test"],
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "target": "ES2020"
+  },
+  "include": [
+    "./tests/**/*.ts",
+    "../playwright.config.ts"
+  ],
+  "exclude": ["../node_modules", "../dist"]
+}

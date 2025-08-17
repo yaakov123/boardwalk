@@ -1,0 +1,151 @@
+/**
+ * Boardwalk Tooltip Component Styles
+ * 
+ * This file contains customizable tooltip styles for the Boardwalk library.
+ * These styles use CSS variables for complete customization.
+ */
+
+/* Base tooltip styles */
+.boardwalk-tooltip {
+  position: absolute;
+  max-width: var(--boardwalk-tooltip-max-width);
+  background-color: var(--boardwalk-bg-color);
+  border-radius: var(--boardwalk-border-radius-md);
+  box-shadow: var(--boardwalk-shadow-tooltip);
+  padding: var(--boardwalk-spacing-md);
+  z-index: var(--boardwalk-z-index-tooltip);
+  pointer-events: auto;
+  transition: opacity var(--boardwalk-transition-duration) var(--boardwalk-transition-timing);
+  font-family: var(--boardwalk-font-family);
+  color: var(--boardwalk-text-color);
+  border: var(--boardwalk-border-width) var(--boardwalk-border-style) var(--boardwalk-border-color);
+}
+
+/* Tooltip arrow */
+.boardwalk-tooltip::before {
+  content: '';
+  position: absolute;
+  width: var(--boardwalk-tooltip-arrow-size);
+  height: var(--boardwalk-tooltip-arrow-size);
+  background-color: var(--boardwalk-bg-color);
+  transform: rotate(45deg);
+  z-index: -1;
+  border: var(--boardwalk-border-width) var(--boardwalk-border-style) var(--boardwalk-border-color);
+}
+
+/* Arrow positions */
+.boardwalk-tooltip[data-position="top"]::before {
+  bottom: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  left: 50%;
+  margin-left: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  border-bottom-style: var(--boardwalk-border-style);
+  border-right-style: var(--boardwalk-border-style);
+  border-top-style: none;
+  border-left-style: none;
+}
+
+.boardwalk-tooltip[data-position="bottom"]::before {
+  top: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  left: 50%;
+  margin-left: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  border-top-style: var(--boardwalk-border-style);
+  border-left-style: var(--boardwalk-border-style);
+  border-bottom-style: none;
+  border-right-style: none;
+}
+
+.boardwalk-tooltip[data-position="left"]::before {
+  right: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  top: 50%;
+  margin-top: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  border-top-style: var(--boardwalk-border-style);
+  border-right-style: var(--boardwalk-border-style);
+  border-bottom-style: none;
+  border-left-style: none;
+}
+
+.boardwalk-tooltip[data-position="right"]::before {
+  left: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  top: 50%;
+  margin-top: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  border-bottom-style: var(--boardwalk-border-style);
+  border-left-style: var(--boardwalk-border-style);
+  border-top-style: none;
+  border-right-style: none;
+}
+
+/* Tooltip title */
+.boardwalk-tooltip-title {
+  font-size: var(--boardwalk-font-size-title);
+  font-weight: var(--boardwalk-font-weight-bold);
+  margin-bottom: var(--boardwalk-spacing-sm);
+  color: var(--boardwalk-text-color);
+}
+
+/* Tooltip content */
+.boardwalk-tooltip-content {
+  font-size: var(--boardwalk-font-size-base);
+  line-height: var(--boardwalk-line-height);
+  margin-bottom: var(--boardwalk-spacing-md);
+  color: var(--boardwalk-text-color-secondary);
+}
+
+/* Tooltip buttons container */
+.boardwalk-tooltip-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Progress indicator */
+.boardwalk-tooltip-progress {
+  font-size: var(--boardwalk-font-size-small);
+  color: var(--boardwalk-text-color-muted);
+  margin-left: auto;
+  padding-left: var(--boardwalk-spacing-md);
+}
+
+/* Tooltip sizes */
+.boardwalk-tooltip-sm {
+  max-width: calc(var(--boardwalk-tooltip-max-width) * 0.75);
+  padding: var(--boardwalk-spacing-sm);
+}
+
+.boardwalk-tooltip-lg {
+  max-width: calc(var(--boardwalk-tooltip-max-width) * 1.25);
+  padding: var(--boardwalk-spacing-lg);
+}
+
+/* Tooltip animations */
+@keyframes boardwalk-tooltip-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes boardwalk-tooltip-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.boardwalk-tooltip-animate-in {
+  animation: boardwalk-tooltip-fade-in var(--boardwalk-transition-duration) var(--boardwalk-transition-timing);
+}
+
+.boardwalk-tooltip-animate-out {
+  animation: boardwalk-tooltip-fade-out var(--boardwalk-transition-duration) var(--boardwalk-transition-timing);
+}
+
+/* Custom tooltip class for users to extend */
+/* .boardwalk-tooltip-custom - Empty class provided for users to extend with their own styles */

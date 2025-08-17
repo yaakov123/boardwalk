@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boardwalk E2E - Keyboard Navigation</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial; padding: 24px; }
+      .box { padding: 16px; border: 1px solid #ddd; border-radius: 8px; margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+      .anchor { padding: 8px 12px; background: #4a90e2; color: white; border-radius: 4px; border: 0; }
+      #startDefault, #startCustom { padding: 8px 12px; }
+      #keyaction { margin-top: 8px; font-size: 12px; color: #666; }
+    </style>
+  </head>
+  <body>
+    <h1>Keyboard Navigation Page</h1>
+
+    <div class="box">
+      <button id="k1" class="anchor">Anchor 1</button>
+      <button id="k2" class="anchor">Anchor 2</button>
+      <button id="startDefault">Start Default Tour</button>
+      <button id="startCustom">Start Custom Tour</button>
+    </div>
+
+    <div id="keyaction" aria-live="polite">none</div>
+
+    <script type="module">
+      import { Tour } from '/dist/boardwalk.es.js';
+
+      let tour;
+      function createDefaultTour() {
+        tour = new Tour({ id: 'kb-default', title: 'Keyboard Default' });
+        tour.addSteps([
+          { target: '#k1', title: 'Step 1', content: 'Default keys: ArrowRight/Left, Escape', position: 'bottom' },
+          { target: '#k2', title: 'Step 2', content: 'Second step', position: 'bottom' },
+        ]);
+        return tour;
+      }
+
+      function createCustomTour() {
+        tour = new Tour({
+          id: 'kb-custom',
+          title: 'Keyboard Custom',
+          keyBindings: { next: ['n'], previous: ['p'], close: ['x'], info: ['i'] },
+          onKeyAction: (action, key) => {
+            const el = document.getElementById('keyaction');
+            if (el) el.textContent = `${action}:${key}`;
+          }
+        });
+        tour.addSteps([
+          { target: '#k1', title: 'Custom 1', content: 'Use n/p/i/x keys', position: 'bottom' },
+          { target: '#k2', title: 'Custom 2', content: 'Second step', position: 'bottom' },
+        ]);
+        return tour;
+      }
+
+      document.getElementById('startDefault').addEventListener('click', () => {
+        (tour && tour.getTotalSteps() ? tour : createDefaultTour()).start();
+      });
+
+      document.getElementById('startCustom').addEventListener('click', () => {
+        (tour && tour.getTotalSteps() ? tour : createCustomTour()).start();
+      });
+
+      document.body.setAttribute('data-test-ready', 'true');
+    </script>
+  </body>
+</html>

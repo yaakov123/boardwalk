@@ -1,0 +1,130 @@
+/**
+ * Boardwalk Progress Component Styles
+ * 
+ * This file contains customizable progress indicator styles for the Boardwalk library.
+ * These styles use CSS variables for complete customization.
+ */
+
+/* Text progress indicator */
+.boardwalk-tooltip-progress {
+  font-size: var(--boardwalk-font-size-small);
+  color: var(--boardwalk-text-color-muted);
+  margin-left: auto;
+  padding-left: var(--boardwalk-spacing-md);
+}
+
+/* Dot progress indicators */
+.boardwalk-progress-dots {
+  display: flex;
+  justify-content: center;
+  margin: var(--boardwalk-spacing-sm) 0;
+}
+
+.boardwalk-progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--boardwalk-text-color-muted);
+  margin: 0 var(--boardwalk-spacing-xs);
+  transition: all var(--boardwalk-transition-duration) var(--boardwalk-transition-timing);
+}
+
+.boardwalk-progress-dot.active {
+  background-color: var(--boardwalk-primary-color);
+  transform: scale(1.2);
+}
+
+/* Bar progress indicator */
+.boardwalk-progress-bar-container {
+  width: 100%;
+  height: 4px;
+  background-color: var(--boardwalk-secondary-color);
+  border-radius: var(--boardwalk-border-radius-sm);
+  margin: var(--boardwalk-spacing-sm) 0;
+  overflow: hidden;
+}
+
+.boardwalk-progress-bar {
+  height: 100%;
+  background-color: var(--boardwalk-primary-color);
+  border-radius: var(--boardwalk-border-radius-sm);
+  transition: width var(--boardwalk-transition-duration) var(--boardwalk-transition-timing);
+}
+
+/* Numbered progress indicator */
+.boardwalk-progress-numbers {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--boardwalk-spacing-sm) 0;
+  position: relative;
+}
+
+.boardwalk-progress-numbers::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--boardwalk-secondary-color);
+  z-index: 0;
+}
+
+.boardwalk-progress-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--boardwalk-secondary-color);
+  color: var(--boardwalk-text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--boardwalk-font-size-small);
+  font-weight: var(--boardwalk-font-weight-bold);
+  position: relative;
+  z-index: 1;
+  transition: all var(--boardwalk-transition-duration) var(--boardwalk-transition-timing);
+}
+
+.boardwalk-progress-number.active {
+  background-color: var(--boardwalk-primary-color);
+  color: white;
+}
+
+.boardwalk-progress-number.completed {
+  background-color: var(--boardwalk-primary-color);
+  color: white;
+}
+
+.boardwalk-progress-number.completed::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Progress with labels */
+.boardwalk-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--boardwalk-spacing-xs);
+}
+
+.boardwalk-progress-label {
+  font-size: var(--boardwalk-font-size-small);
+  color: var(--boardwalk-text-color-secondary);
+  text-align: center;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.boardwalk-progress-label.active {
+  color: var(--boardwalk-primary-color);
+  font-weight: var(--boardwalk-font-weight-bold);
+}
+
+/* Custom progress class for users to extend */
+/* .boardwalk-progress-custom - Empty class provided for users to extend with their own styles */

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boardwalk E2E Smoke</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; padding: 24px; }
+      .box { padding: 16px; border: 1px solid #ddd; border-radius: 8px; margin-top: 16px; }
+      #anchor { display: inline-block; padding: 8px 12px; background: #4a90e2; color: white; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <h1>Boardwalk E2E Smoke Page</h1>
+    <p id="desc">This page is used by Playwright to verify that the library boots under Vite.</p>
+
+    <div class="box">
+      <button id="anchor">Target Element</button>
+      <button id="start">Start Tour</button>
+    </div>
+
+    <script type="module">
+      import { Tour } from '/dist/boardwalk.es.js';
+
+      // Expose simple controls for tests
+      let tour;
+      function createTour() {
+        tour = new Tour({ id: 'smoke', title: 'Smoke Tour' });
+        tour.addSteps([
+          { target: '#anchor', title: 'Step 1', content: 'Hello from Boardwalk', position: 'bottom' }
+        ]);
+        return tour;
+      }
+
+      document.getElementById('start').addEventListener('click', () => {
+        (tour || createTour()).start();
+      });
+
+      // Signal readiness to tests
+      window.__boardwalkReady = true;
+      document.body.setAttribute('data-test-ready', 'true');
+    </script>
+  </body>
+</html>

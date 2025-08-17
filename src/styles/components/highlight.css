@@ -1,0 +1,96 @@
+/**
+ * Boardwalk Highlight Component Styles
+ * 
+ * This file contains customizable highlight styles for the Boardwalk library.
+ * These styles use CSS variables for complete customization.
+ */
+
+/* Base highlight styles */
+.boardwalk-highlight {
+  position: absolute;
+  box-shadow: var(--boardwalk-shadow-highlight);
+  border-radius: var(--boardwalk-border-radius-sm);
+  z-index: var(--boardwalk-z-index-highlight);
+  pointer-events: none;
+}
+
+.boardwalk-highlighted {
+  z-index: var(--boardwalk-z-index-highlighted-element);
+  position: relative;
+}
+
+/* Highlight animations */
+@keyframes boardwalk-pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--boardwalk-highlight-color), var(--boardwalk-shadow-highlight);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0), var(--boardwalk-shadow-highlight);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), var(--boardwalk-shadow-highlight);
+  }
+}
+
+.boardwalk-highlight.animate {
+  animation: boardwalk-pulse var(--boardwalk-animation-duration) infinite;
+}
+
+/* Highlight styles */
+.boardwalk-highlight-subtle {
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.3);
+}
+
+.boardwalk-highlight-strong {
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
+}
+
+/* Highlight border styles */
+.boardwalk-highlight-border {
+  border: 2px solid var(--boardwalk-primary-color);
+}
+
+.boardwalk-highlight-glow {
+  box-shadow: 0 0 0 9999px var(--boardwalk-overlay-color), 
+              0 0 0 3px var(--boardwalk-primary-color),
+              0 0 15px var(--boardwalk-primary-color);
+}
+
+/* Highlight shapes */
+.boardwalk-highlight-rounded {
+  border-radius: var(--boardwalk-border-radius-lg);
+}
+
+.boardwalk-highlight-circle {
+  border-radius: 50%;
+}
+
+/* Animation variations */
+@keyframes boardwalk-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.boardwalk-highlight.blink {
+  animation: boardwalk-blink 1s infinite;
+}
+
+@keyframes boardwalk-bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.boardwalk-highlight.bounce {
+  animation: boardwalk-bounce 1s infinite;
+}
+
+/* Custom highlight class for users to extend */
+/* .boardwalk-highlight-custom - Empty class provided for users to extend with their own styles */

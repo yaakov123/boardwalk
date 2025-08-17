@@ -1,0 +1,234 @@
+/* Boardwalk Tour Library Styles */
+@import './variables.css';
+@import './themes/default.css';
+@import './themes/dark.css';
+@import './themes/modern.css';
+
+/* Import component-specific styles */
+@import './components/buttons.css';
+@import './components/tooltip.css';
+@import './components/highlight.css';
+@import './components/overlay.css';
+@import './components/progress.css';
+@import './components/accessibility.css';
+
+/* Apply default theme if no theme class is specified */
+/* Root level styles inherit from variables.css */
+
+/* Overlay */
+.boardwalk-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--boardwalk-overlay-color);
+  z-index: var(--boardwalk-z-index-overlay);
+  pointer-events: none;
+}
+
+/* Container */
+.boardwalk-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--boardwalk-z-index-highlighted-element);
+  pointer-events: none;
+}
+
+/* Tooltip */
+.boardwalk-tooltip {
+  position: absolute;
+  max-width: var(--boardwalk-tooltip-max-width);
+  background-color: var(--boardwalk-bg-color);
+  border-radius: var(--boardwalk-border-radius-md);
+  box-shadow: var(--boardwalk-shadow-tooltip);
+  padding: var(--boardwalk-spacing-md);
+  z-index: var(--boardwalk-z-index-tooltip);
+  pointer-events: auto;
+  transition: opacity var(--boardwalk-transition-duration) var(--boardwalk-transition-timing);
+  font-family: var(--boardwalk-font-family);
+  color: var(--boardwalk-text-color);
+  border: var(--boardwalk-border-width) var(--boardwalk-border-style) var(--boardwalk-border-color);
+}
+
+/* Tooltip arrow */
+.boardwalk-tooltip::before {
+  content: '';
+  position: absolute;
+  width: var(--boardwalk-tooltip-arrow-size);
+  height: var(--boardwalk-tooltip-arrow-size);
+  background-color: var(--boardwalk-bg-color);
+  transform: rotate(45deg);
+  z-index: -1;
+  border: var(--boardwalk-border-width) var(--boardwalk-border-style) var(--boardwalk-border-color);
+  border-top-style: none;
+  border-left-style: none;
+}
+
+/* Arrow positions */
+.boardwalk-tooltip[data-position="top"]::before {
+  bottom: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  left: 50%;
+  margin-left: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  border-bottom-style: var(--boardwalk-border-style);
+  border-right-style: var(--boardwalk-border-style);
+  border-top-style: none;
+  border-left-style: none;
+}
+
+.boardwalk-tooltip[data-position="bottom"]::before {
+  top: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  left: 50%;
+  margin-left: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  border-top-style: var(--boardwalk-border-style);
+  border-left-style: var(--boardwalk-border-style);
+  border-bottom-style: none;
+  border-right-style: none;
+}
+
+.boardwalk-tooltip[data-position="left"]::before {
+  right: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  top: 50%;
+  margin-top: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  border-top-style: var(--boardwalk-border-style);
+  border-right-style: var(--boardwalk-border-style);
+  border-bottom-style: none;
+  border-left-style: none;
+}
+
+.boardwalk-tooltip[data-position="right"]::before {
+  left: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  top: 50%;
+  margin-top: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+  border-bottom-style: var(--boardwalk-border-style);
+  border-left-style: var(--boardwalk-border-style);
+  border-top-style: none;
+  border-right-style: none;
+}
+
+/* Tooltip title */
+.boardwalk-tooltip-title {
+  font-size: var(--boardwalk-font-size-title);
+  font-weight: var(--boardwalk-font-weight-bold);
+  margin-bottom: var(--boardwalk-spacing-sm);
+  color: var(--boardwalk-text-color);
+}
+
+/* Tooltip content */
+.boardwalk-tooltip-content {
+  font-size: var(--boardwalk-font-size-base);
+  line-height: var(--boardwalk-line-height);
+  margin-bottom: var(--boardwalk-spacing-md);
+  color: var(--boardwalk-text-color-secondary);
+}
+
+/* Tooltip buttons container */
+.boardwalk-tooltip-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Instruction text for click-to-continue and auto-progress */
+.boardwalk-instruction-text {
+  font-size: var(--boardwalk-font-size-small);
+  color: var(--boardwalk-text-color-secondary);
+  font-style: italic;
+  padding: var(--boardwalk-spacing-sm) 0;
+  text-align: center;
+  width: 100%;
+}
+
+/* Cursor style for click-to-continue */
+body.boardwalk-click-to-continue {
+  cursor: pointer;
+}
+
+/* Buttons */
+.boardwalk-btn {
+  padding: var(--boardwalk-btn-padding-y) var(--boardwalk-btn-padding-x);
+  border-radius: var(--boardwalk-border-radius-sm);
+  font-size: var(--boardwalk-btn-font-size);
+  font-weight: var(--boardwalk-btn-font-weight);
+  cursor: pointer;
+  border: none;
+  transition: background-color var(--boardwalk-transition-duration) var(--boardwalk-transition-timing);
+}
+
+.boardwalk-btn-prev {
+  background-color: var(--boardwalk-secondary-color);
+  color: var(--boardwalk-text-color);
+}
+
+.boardwalk-btn-prev:hover {
+  background-color: var(--boardwalk-secondary-color-hover);
+}
+
+.boardwalk-btn-prev:active {
+  background-color: var(--boardwalk-secondary-color-active);
+}
+
+.boardwalk-btn-next {
+  background-color: var(--boardwalk-primary-color);
+  color: white;
+  margin-left: var(--boardwalk-spacing-sm);
+}
+
+.boardwalk-btn-next:hover {
+  background-color: var(--boardwalk-primary-color-hover);
+}
+
+.boardwalk-btn-next:active {
+  background-color: var(--boardwalk-primary-color-active);
+}
+
+/* Progress indicator */
+.boardwalk-tooltip-progress {
+  font-size: var(--boardwalk-font-size-small);
+  color: var(--boardwalk-text-color-muted);
+  margin-left: auto;
+  padding-left: var(--boardwalk-spacing-md);
+}
+
+/* Highlight */
+.boardwalk-highlight {
+  position: absolute;
+  box-shadow: var(--boardwalk-shadow-highlight);
+  border-radius: var(--boardwalk-border-radius-sm);
+  z-index: var(--boardwalk-z-index-highlight);
+  pointer-events: none;
+}
+
+.boardwalk-highlighted {
+  z-index: var(--boardwalk-z-index-highlighted-element);
+  position: relative;
+}
+
+/* Animation */
+@keyframes boardwalk-pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--boardwalk-highlight-color), var(--boardwalk-shadow-highlight);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0), var(--boardwalk-shadow-highlight);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), var(--boardwalk-shadow-highlight);
+  }
+}
+
+.boardwalk-highlight.animate {
+  animation: boardwalk-pulse var(--boardwalk-animation-duration) infinite;
+}
+
+/* Utility classes for custom styling */
+.boardwalk-no-animation {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Custom class for users to extend */
+/* .boardwalk-custom - Empty class provided for users to extend with their own styles */

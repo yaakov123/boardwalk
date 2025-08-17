@@ -1,0 +1,56 @@
+/* Accessibility styles for Boardwalk */
+
+/* Screen reader only class - visually hidden but available to screen readers */
+.boardwalk-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles */
+.boardwalk-focus-visible:focus {
+  outline: 2px solid var(--boardwalk-focus-color, #4a90e2);
+  outline-offset: 2px;
+}
+
+/* Ensure focus is visible even when outline is disabled */
+.boardwalk-focus-visible:focus:not(:focus-visible) {
+  outline: 2px solid var(--boardwalk-focus-color, #4a90e2);
+  outline-offset: 2px;
+}
+
+/* Skip to content link - becomes visible on focus */
+.boardwalk-skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--boardwalk-background-color, #ffffff);
+  color: var(--boardwalk-text-color, #333333);
+  padding: 8px;
+  z-index: 10000;
+  transition: top 0.3s;
+}
+
+.boardwalk-skip-link:focus {
+  top: 0;
+}
+
+/* High contrast mode adjustments */
+@media (forced-colors: active) {
+  .boardwalk-tooltip,
+  .boardwalk-button,
+  .boardwalk-highlight {
+    forced-color-adjust: none;
+    border: 1px solid ButtonText;
+  }
+  
+  .boardwalk-button:focus {
+    outline: 2px solid Highlight;
+  }
+}

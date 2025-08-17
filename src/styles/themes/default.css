@@ -1,0 +1,22 @@
+/**
+ * Boardwalk Default Theme
+ * 
+ * This theme uses a blue primary color scheme with light backgrounds.
+ */
+
+.boardwalk-theme-default {
+  /* Color System */
+  --boardwalk-primary-color: #4a90e2;
+  --boardwalk-primary-color-hover: #3a80d2;
+  --boardwalk-primary-color-active: #2a70c2;
+  --boardwalk-secondary-color: #f1f1f1;
+  --boardwalk-secondary-color-hover: #e1e1e1;
+  --boardwalk-secondary-color-active: #d1d1d1;
+  --boardwalk-text-color: #333333;
+  --boardwalk-text-color-secondary: #666666;
+  --boardwalk-text-color-muted: #777777;
+  --boardwalk-bg-color: #ffffff;
+  --boardwalk-border-color: #dddddd;
+  --boardwalk-overlay-color: rgba(0, 0, 0, 0.5);
+  --boardwalk-highlight-color: rgba(74, 144, 226, 0.3);
+}

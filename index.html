@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boardwalk - Interactive Product Tour Library</title>
+  <style>
+    :root {
+      --primary-color: #4a90e2;
+      --secondary-color: #f8f9fa;
+      --text-color: #333;
+      --border-color: #ddd;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: #fff;
+    }
+    
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+      margin-left: 10px;
+    }
+    
+    /* Keyboard Navigation Styles */
+    .keyboard-customizer {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .keyboard-toggle {
+      margin-bottom: 15px;
+    }
+    
+    .keyboard-toggle label {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    .keyboard-toggle input {
+      margin-right: 8px;
+    }
+    
+    .keyboard-bindings {
+      margin-bottom: 15px;
+    }
+    
+    .key-binding {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .key-binding label {
+      width: 100px;
+      font-size: 14px;
+    }
+    
+    .key-binding input {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 14px;
+      margin-right: 8px;
+    }
+    
+    .edit-binding {
+      padding: 4px 8px;
+      font-size: 12px;
+      background-color: #f5f5f5;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .keyboard-info {
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    
+    .keyboard-info ul {
+      padding-left: 20px;
+      margin: 5px 0 0;
+    }
+    
+    .keyboard-info li {
+      margin-bottom: 5px;
+    }
+    
+    kbd {
+      display: inline-block;
+      padding: 2px 5px;
+      font-size: 11px;
+      line-height: 1;
+      color: #444;
+      background-color: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    }
+    
+    /* Key Capture Modal */
+    .key-capture-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    .key-capture-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 400px;
+      max-width: 90%;
+    }
+    
+    .key-capture-content h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    
+    .captured-keys {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 15px 0;
+      min-height: 40px;
+    }
+    
+    .captured-key {
+      display: inline-flex;
+      align-items: center;
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-family: monospace;
+    }
+    
+    .remove-key {
+      background: none;
+      border: none;
+      color: #999;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+    
+    .key-capture-buttons {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 15px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    header {
+      background-color: var(--secondary-color);
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 20px;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+    }
+    
+    .hero {
+      padding: 80px 0;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: var(--text-color);
+    }
+    
+    .hero p {
+      font-size: 20px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: #666;
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+    }
+    
+    .btn:hover {
+      background-color: #3a80d2;
+    }
+    
+    .features {
+      padding: 80px 0;
+      background-color: var(--secondary-color);
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .section-title h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    
+    .section-title p {
+      font-size: 18px;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .feature-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .feature-card h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+    
+    .feature-card p {
+      color: #666;
+    }
+    
+    .demo {
+      padding: 80px 0;
+    }
+    
+    .demo-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .demo-app {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .demo-header {
+      background-color: #f7f7f7;
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .demo-title {
+      font-weight: 600;
+    }
+    
+    .demo-content {
+      padding: 20px;
+      min-height: 300px;
+    }
+    
+    .demo-sidebar {
+      width: 200px;
+      background-color: #f7f7f7;
+      padding: 15px;
+      border-right: 1px solid #ddd;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
+    
+    .demo-main {
+      margin-left: 200px;
+      padding: 20px;
+    }
+    
+    .demo-item {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .demo-item:hover {
+      background-color: #eee;
+    }
+    
+    .demo-actions {
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    footer {
+      background-color: #333;
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+    }
+    
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-content p {
+      margin-bottom: 20px;
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      margin-bottom: 20px;
+    }
+    
+    .social-links li {
+      margin: 0 10px;
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 20px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">Boardwalk</div>
+        <ul class="nav-links">
+          <li><a href="#" id="nav-features">Features</a></li>
+          <li><a href="#" id="nav-demo">Demo</a></li>
+          <li><a href="#" id="nav-docs">Documentation</a></li>
+          <li><a href="#" id="nav-github">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Create Interactive Product Tours</h1>
+      <p>Guide your users through your application with beautiful, customizable step-by-step tours</p>
+      <a href="#" class="btn" id="start-tour">Start Demo Tour</a>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Features</h2>
+        <p>Everything you need to create engaging product tours</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card" id="feature-1">
+          <h3>Easy Integration</h3>
+          <p>Simple API to integrate with any website or web application with just a few lines of code.</p>
+        </div>
+        <div class="feature-card" id="feature-2">
+          <h3>Customizable</h3>
+          <p>Fully customizable appearance to match your brand's look and feel.</p>
+        </div>
+        <div class="feature-card" id="feature-3">
+          <h3>Responsive</h3>
+          <p>Works perfectly on all devices from desktop to mobile.</p>
+        </div>
+        <div class="feature-card" id="feature-4">
+          <h3>Smart Positioning</h3>
+          <p>Automatically positions tooltips to ensure they're always visible.</p>
+        </div>
+        <div class="feature-card" id="feature-5">
+          <h3>Callbacks & Events</h3>
+          <p>Rich set of callbacks and events to hook into the tour lifecycle.</p>
+        </div>
+        <div class="feature-card" id="feature-6">
+          <h3>Lightweight</h3>
+          <p>Small footprint with no external dependencies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo" id="demo">
+    <div class="container">
+      <div class="section-title">
+        <h2>See It In Action</h2>
+        <p>Try out the interactive demo below</p>
+      </div>
+      <div class="demo-container">
+        <div class="demo-app">
+          <div class="demo-header">
+            <div class="demo-title">Dashboard</div>
+            <div class="demo-user" id="demo-user">John Doe</div>
+          </div>
+          <div class="demo-content" style="position: relative;">
+            <div class="demo-sidebar">
+              <div class="demo-item" id="demo-item-1">Dashboard</div>
+              <div class="demo-item" id="demo-item-2">Projects</div>
+              <div class="demo-item" id="demo-item-3">Tasks</div>
+              <div class="demo-item" id="demo-item-4">Reports</div>
+              <div class="demo-item" id="demo-item-5">Settings</div>
+            </div>
+            <div class="demo-main">
+              <h2>Welcome to your Dashboard</h2>
+              <p>This is a demo application to showcase the Boardwalk tour library.</p>
+              <div class="demo-actions">
+                <button class="btn" id="demo-button">Create New Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>Boardwalk - Interactive Product Tour Library</p>
+        <ul class="social-links">
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">NPM</a></li>
+        </ul>
+        <p>&copy; 2025 Boardwalk. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  
+
+  <script type="module">
+    import { Tour, DEFAULT_KEY_BINDINGS, announce } from './src/index.ts';
+    
+    let currentTour = null;
+    
+    // Create a tour when the "Start Demo Tour" button is clicked
+    document.getElementById('start-tour').addEventListener('click', function() {
+      // If a tour is already running, stop it
+      if (currentTour) {
+        currentTour.end();
+      }
+      
+      currentTour = new Tour({
+        id: 'demo-tour',
+        title: 'Welcome to Boardwalk',
+        showProgress: true,
+        showStepNumbers: true,
+        enableKeyboardNavigation: true,
+        onKeyAction: (action, key) => console.log(`Key action: ${action} (${key})`)
+      });
+      
+      // Add steps to the tour
+      currentTour.addSteps([
+        {
+          target: '#start-tour',
+          title: 'Welcome to Boardwalk',
+          content: 'This tour will show you how to use the Boardwalk library to create interactive product tours.',
+          position: 'bottom'
+        },
+        {
+          target: '#feature-1',
+          title: 'Easy Integration',
+          content: 'Boardwalk is designed to be easy to integrate with any website or web application.',
+          position: 'top'
+        },
+        {
+          target: '#feature-2',
+          title: 'Fully Customizable',
+          content: 'Customize every aspect of the tour including colors, animations, and styles.',
+          position: 'top'
+        },
+        {
+          target: '#demo-user',
+          title: 'User Profile',
+          content: 'Users can access their profile settings from here.',
+          position: 'bottom'
+        },
+        {
+          target: '#demo-item-2',
+          title: 'Projects Section',
+          content: 'View and manage all your projects in this section.',
+          position: 'right'
+        },
+        {
+          target: '#demo-button',
+          title: 'Create Projects',
+          content: 'Click this button to create a new project.',
+          position: 'top'
+        },
+        {
+          target: '#nav-docs',
+          title: 'Documentation',
+          content: 'Check out the documentation to learn more about Boardwalk\'s features and API.',
+          position: 'bottom'
+        }
+      ]);
+      
+      // Start the tour
+      currentTour.start();
+    });
+    
+   
+  </script>
+</body>
+</html>

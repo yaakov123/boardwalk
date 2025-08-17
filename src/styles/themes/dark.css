@@ -1,0 +1,28 @@
+/**
+ * Boardwalk Dark Theme
+ * 
+ * This theme uses a dark color scheme with blue accents.
+ */
+
+.boardwalk-theme-dark {
+  /* Color System */
+  --boardwalk-primary-color: #5a9cf0;
+  --boardwalk-primary-color-hover: #4a8ce0;
+  --boardwalk-primary-color-active: #3a7cd0;
+  --boardwalk-secondary-color: #3a3a3a;
+  --boardwalk-secondary-color-hover: #4a4a4a;
+  --boardwalk-secondary-color-active: #5a5a5a;
+  --boardwalk-text-color: #f0f0f0;
+  --boardwalk-text-color-secondary: #c0c0c0;
+  --boardwalk-text-color-muted: #a0a0a0;
+  --boardwalk-bg-color: #222222;
+  --boardwalk-border-color: #444444;
+  --boardwalk-overlay-color: rgba(0, 0, 0, 0.7);
+  --boardwalk-highlight-color: rgba(90, 156, 240, 0.3);
+  
+  /* Shadows with adjusted opacity for dark theme */
+  --boardwalk-shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.3);
+  --boardwalk-shadow-md: 0 2px 10px rgba(0, 0, 0, 0.4);
+  --boardwalk-shadow-lg: 0 5px 15px rgba(0, 0, 0, 0.5);
+  --boardwalk-shadow-tooltip: 0 2px 20px rgba(0, 0, 0, 0.6);
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boardwalk E2E - Focus Trap</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial; padding: 24px; }
+      .box { padding: 16px; border: 1px solid #ddd; border-radius: 8px; margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+      .anchor { padding: 8px 12px; background: #4a90e2; color: white; border-radius: 4px; border: 0; }
+      #start { padding: 8px 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>Focus Trap Page</h1>
+
+    <!-- Interactive elements outside the tour to test trapping -->
+    <input id="outside-input" placeholder="Outside input" />
+    <button id="outside-button">Outside Button</button>
+
+    <div class="box">
+      <button id="f1" class="anchor">Anchor 1</button>
+      <button id="start">Start Tour</button>
+    </div>
+
+    <script type="module">
+      import { Tour } from '/dist/boardwalk.es.js';
+
+      let tour;
+      function createTour() {
+        tour = new Tour({ id: 'focus-trap', title: 'Focus Trap' });
+        tour.addSteps([
+          { target: '#f1', title: 'Focus Step', content: 'Focus should remain within tour controls', position: 'bottom' },
+        ]);
+        return tour;
+      }
+
+      document.getElementById('start').addEventListener('click', () => {
+        (tour || createTour()).start();
+      });
+
+      document.body.setAttribute('data-test-ready', 'true');
+    </script>
+  </body>
+</html>

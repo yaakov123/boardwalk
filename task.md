@@ -1,0 +1,3 @@
+- [ ] **Interaction Patterns**
+  - Click-to-continue option
+  - Auto-progress with configurable timing

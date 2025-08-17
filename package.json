@@ -1,0 +1,49 @@
+{
+  "name": "boardwalk",
+  "version": "0.1.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/boardwalk.umd.js",
+  "module": "./dist/boardwalk.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/boardwalk.es.js",
+      "require": "./dist/boardwalk.umd.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "PWDEBUG=1 playwright test",
+    "test:e2e:codegen": "playwright codegen http://localhost:5174",
+    "pree2e:server": "npm run build",
+    "e2e:server": "node ./scripts/e2e-server.mjs"
+  },
+  "keywords": [
+    "tour",
+    "product tour",
+    "onboarding",
+    "user guide"
+  ],
+  "author": "",
+  "license": "MIT",
+  "description": "Interactive product tour library for websites",
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^20.10.0",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0",
+    "vite-plugin-css-injected-by-js": "^3.5.2",
+    "vite-plugin-dts": "^3.6.0",
+    "vitest": "^3.2.4"
+  }
+}
