@@ -69,20 +69,6 @@ export class Tour {
       this.container.classList.add(this.options.className);
     }
     
-    // Create skip link for accessibility
-    const skipLink = document.createElement('a');
-    skipLink.className = 'boardwalk-skip-link boardwalk-focus-visible';
-    skipLink.setAttribute('data-boardwalk-focusable', 'true');
-    skipLink.textContent = 'Skip tour';
-    skipLink.href = '#';
-    skipLink.setAttribute('aria-label', 'Skip tour');
-    skipLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      this.end(true);
-    });
-    
-    this.container.appendChild(skipLink);
-    
     // Create live region for announcements
     this.liveRegion = createLiveRegion('polite');
     
@@ -224,7 +210,6 @@ export class Tour {
     if (this.focusManager) {
       setTimeout(() => {
         this.focusManager?.updateFocusableElements();
-        this.container?.focus();
       }, 500); // Short delay to ensure DOM is updated
     }
 

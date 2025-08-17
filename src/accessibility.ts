@@ -55,6 +55,7 @@ export class FocusManager {
     // Set first and last focusable elements
     this.firstFocusableElement = this.focusableElements[0] || null;
     this.lastFocusableElement = this.focusableElements[this.focusableElements.length - 1] || null;
+    this.lastFocusableElement?.focus();
   }
 
   /**
