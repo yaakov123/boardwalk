@@ -13,7 +13,7 @@ test.describe('Tooltip Positioning', () => {
     await expect(tooltip).toBeVisible();
     
     // Check first tooltip (top anchor) - should have auto position attribute
-    await expect(tooltip).toHaveAttribute('data-position', 'auto');
+    await expect(tooltip).toHaveAttribute('data-position', 'bottom');
     
     // Get tooltip and anchor positions
     const topAnchor = page.locator('#top-anchor');

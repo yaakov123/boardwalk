@@ -317,6 +317,18 @@ export class Step {
     
     this.targetElement.classList.add('boardwalk-highlighted');
     
+    // Check if element needs positioning for z-index to work
+    const computedStyle = window.getComputedStyle(this.targetElement);
+    const currentPosition = computedStyle.position;
+    
+    // Z-index only works on positioned elements (not static)
+    if (currentPosition === 'static') {
+      // Store original position
+      this.targetElement.dataset.originalPosition = 'static';
+      // Set relative positioning to make z-index work
+      this.targetElement.style.position = 'relative';
+    }
+    
     // Add ARIA attributes to the target element
     const originalTabIndex = this.targetElement.getAttribute('tabindex');
     if (!originalTabIndex || originalTabIndex === '-1') {
@@ -498,6 +510,16 @@ export class Step {
     // Remove highlight
     if (this.targetElement) {
       this.targetElement.classList.remove('boardwalk-highlighted');
+      
+      // Restore original position if it was changed
+      if (this.targetElement.dataset.originalPosition !== undefined) {
+        if (this.targetElement.dataset.originalPosition === 'static') {
+          this.targetElement.style.removeProperty('position');
+        } else {
+          this.targetElement.style.position = this.targetElement.dataset.originalPosition;
+        }
+        delete this.targetElement.dataset.originalPosition;
+      }
       
       // Restore original tabindex
       if (this.targetElement.dataset.originalTabindex !== undefined) {
