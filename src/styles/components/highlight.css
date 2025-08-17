@@ -16,7 +16,6 @@
 
 .boardwalk-highlighted {
   z-index: var(--boardwalk-z-index-highlighted-element);
-  position: relative;
 }
 
 /* Highlight animations */

@@ -193,20 +193,6 @@ body.boardwalk-click-to-continue {
   padding-left: var(--boardwalk-spacing-md);
 }
 
-/* Highlight */
-.boardwalk-highlight {
-  position: absolute;
-  box-shadow: var(--boardwalk-shadow-highlight);
-  border-radius: var(--boardwalk-border-radius-sm);
-  z-index: var(--boardwalk-z-index-highlight);
-  pointer-events: none;
-}
-
-.boardwalk-highlighted {
-  z-index: var(--boardwalk-z-index-highlighted-element);
-  position: relative;
-}
-
 /* Animation */
 @keyframes boardwalk-pulse {
   0% {
