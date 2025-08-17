@@ -6,6 +6,7 @@
  */
 
 /* Base tooltip styles */
+/* Tooltip */
 .boardwalk-tooltip {
   position: absolute;
   max-width: var(--boardwalk-tooltip-max-width);
@@ -22,8 +23,7 @@
 }
 
 /* Tooltip arrow */
-.boardwalk-tooltip::before {
-  content: '';
+.boardwalk-tooltip-arrow {
   position: absolute;
   width: var(--boardwalk-tooltip-arrow-size);
   height: var(--boardwalk-tooltip-arrow-size);
@@ -34,45 +34,34 @@
 }
 
 /* Arrow positions */
-.boardwalk-tooltip[data-position="top"]::before {
-  bottom: calc(var(--boardwalk-tooltip-arrow-size) / -2);
-  left: 50%;
-  margin-left: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+.boardwalk-tooltip[data-position="top"] .boardwalk-tooltip-arrow {
   border-bottom-style: var(--boardwalk-border-style);
   border-right-style: var(--boardwalk-border-style);
   border-top-style: none;
   border-left-style: none;
 }
 
-.boardwalk-tooltip[data-position="bottom"]::before {
-  top: calc(var(--boardwalk-tooltip-arrow-size) / -2);
-  left: 50%;
-  margin-left: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+.boardwalk-tooltip[data-position="bottom"] .boardwalk-tooltip-arrow {
   border-top-style: var(--boardwalk-border-style);
   border-left-style: var(--boardwalk-border-style);
   border-bottom-style: none;
   border-right-style: none;
 }
 
-.boardwalk-tooltip[data-position="left"]::before {
-  right: calc(var(--boardwalk-tooltip-arrow-size) / -2);
-  top: 50%;
-  margin-top: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+.boardwalk-tooltip[data-position="left"] .boardwalk-tooltip-arrow {
   border-top-style: var(--boardwalk-border-style);
   border-right-style: var(--boardwalk-border-style);
   border-bottom-style: none;
   border-left-style: none;
 }
 
-.boardwalk-tooltip[data-position="right"]::before {
-  left: calc(var(--boardwalk-tooltip-arrow-size) / -2);
-  top: 50%;
-  margin-top: calc(var(--boardwalk-tooltip-arrow-size) / -2);
+.boardwalk-tooltip[data-position="right"] .boardwalk-tooltip-arrow {
   border-bottom-style: var(--boardwalk-border-style);
   border-left-style: var(--boardwalk-border-style);
   border-top-style: none;
   border-right-style: none;
 }
+
 
 /* Tooltip title */
 .boardwalk-tooltip-title {

@@ -95,6 +95,11 @@ export class Step {
       this.tooltipElement.classList.add(this.options.className);
     }
     
+    // Create arrow element
+    const arrowElement = document.createElement('div');
+    arrowElement.className = 'boardwalk-tooltip-arrow';
+    this.tooltipElement.appendChild(arrowElement);
+    
     // Add title if provided
     if (this.options.title) {
       const titleElement = document.createElement('div');
@@ -190,9 +195,10 @@ export class Step {
     
     let top = 0;
     let left = 0;
+    let position = this.options.position || 'auto';
     
     // Calculate position based on specified position
-    switch (this.options.position) {
+    switch (position) {
       case 'top':
         top = targetRect.top - tooltipRect.height - 10;
         left = targetRect.left + (targetRect.width / 2) - (tooltipRect.width / 2);
@@ -216,24 +222,31 @@ export class Step {
         if (targetRect.bottom + tooltipRect.height + 10 <= window.innerHeight) {
           top = targetRect.bottom + 10;
           left = targetRect.left + (targetRect.width / 2) - (tooltipRect.width / 2);
+          position = 'bottom';
         } 
         // Try top
         else if (targetRect.top - tooltipRect.height - 10 >= 0) {
           top = targetRect.top - tooltipRect.height - 10;
           left = targetRect.left + (targetRect.width / 2) - (tooltipRect.width / 2);
+          position = 'top';
         }
         // Try right
         else if (targetRect.right + tooltipRect.width + 10 <= window.innerWidth) {
           top = targetRect.top + (targetRect.height / 2) - (tooltipRect.height / 2);
           left = targetRect.right + 10;
+          position = 'right';
         }
         // Try left
         else {
           top = targetRect.top + (targetRect.height / 2) - (tooltipRect.height / 2);
           left = targetRect.left - tooltipRect.width - 10;
+          position = 'left';
         }
         break;
     }
+    
+    // Original position before viewport adjustments
+    const originalPosition = position;
     
     // Ensure tooltip stays within viewport
     if (left < 0) left = 10;
@@ -250,7 +263,50 @@ export class Step {
     this.tooltipElement.style.left = `${left + window.scrollX}px`;
     
     // Add position class for styling
-    this.tooltipElement.setAttribute('data-position', this.options.position || 'auto');
+    this.tooltipElement.setAttribute('data-position', position);
+    
+    // Position the arrow
+    this.positionArrow(originalPosition, targetRect);
+  }
+  
+  /**
+   * Position the arrow element based on the tooltip position
+   * @param position The position of the tooltip
+   * @param targetRect The bounding rectangle of the target element
+   */
+  private positionArrow(position: string, targetRect: DOMRect): void {
+    if (!this.tooltipElement) return;
+    
+    const arrowElement = this.tooltipElement.querySelector('.boardwalk-tooltip-arrow') as HTMLElement;
+    if (!arrowElement) return;
+    
+    const tooltipRect = this.tooltipElement.getBoundingClientRect();
+    
+    // Reset arrow position styles
+    arrowElement.style.top = '';
+    arrowElement.style.left = '';
+    arrowElement.style.right = '';
+    arrowElement.style.bottom = '';
+    
+    // Calculate arrow position based on tooltip position
+    switch (position) {
+      case 'top':
+        arrowElement.style.bottom = '-8px';
+        arrowElement.style.left = `${targetRect.left + (targetRect.width / 2) - tooltipRect.left - 8}px`;
+        break;
+      case 'bottom':
+        arrowElement.style.top = '-8px';
+        arrowElement.style.left = `${targetRect.left + (targetRect.width / 2) - tooltipRect.left - 8}px`;
+        break;
+      case 'left':
+        arrowElement.style.right = '-8px';
+        arrowElement.style.top = `${targetRect.top + (targetRect.height / 2) - tooltipRect.top - 8}px`;
+        break;
+      case 'right':
+        arrowElement.style.left = '-8px';
+        arrowElement.style.top = `${targetRect.top + (targetRect.height / 2) - tooltipRect.top - 8}px`;
+        break;
+    }
   }
   
   /**
