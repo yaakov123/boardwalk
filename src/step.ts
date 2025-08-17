@@ -217,7 +217,9 @@ export class Step {
     if (this.options.title) {
       const titleElement = document.createElement('div');
       titleElement.className = 'boardwalk-tooltip-title';
-      titleElement.textContent = this.options.title;
+      const showNums = this.tour.shouldShowStepNumbers();
+      const prefix = showNums ? `${this.tour.getCurrentStepIndex() + 1}. ` : '';
+      titleElement.textContent = `${prefix}${this.options.title}`;
       titleElement.id = `boardwalk-title-${this.tour.getCurrentStepIndex() + 1}`;
       this.tooltipElement.appendChild(titleElement);
     }
@@ -279,19 +281,21 @@ export class Step {
       buttonsElement.appendChild(instructionText);
     }
     
-    // Add progress indicator if enabled
-    const currentIndex = this.tour.getCurrentStepIndex();
-    const totalSteps = this.tour.getTotalSteps();
-    
-    const progressElement = document.createElement('div');
-    progressElement.className = 'boardwalk-tooltip-progress';
-    progressElement.textContent = `${currentIndex + 1} of ${totalSteps}`;
-    progressElement.setAttribute('role', ARIA_ROLES.PROGRESSBAR);
-    progressElement.setAttribute('aria-valuemin', '1');
-    progressElement.setAttribute('aria-valuemax', `${totalSteps}`);
-    progressElement.setAttribute('aria-valuenow', `${currentIndex + 1}`);
-    
-    buttonsElement.appendChild(progressElement);
+    // Add progress indicator if enabled by tour options
+    if (this.tour.shouldShowProgress()) {
+      const currentIndex = this.tour.getCurrentStepIndex();
+      const totalSteps = this.tour.getTotalSteps();
+      
+      const progressElement = document.createElement('div');
+      progressElement.className = 'boardwalk-tooltip-progress';
+      progressElement.textContent = `${currentIndex + 1} of ${totalSteps}`;
+      progressElement.setAttribute('role', ARIA_ROLES.PROGRESSBAR);
+      progressElement.setAttribute('aria-valuemin', '1');
+      progressElement.setAttribute('aria-valuemax', `${totalSteps}`);
+      progressElement.setAttribute('aria-valuenow', `${currentIndex + 1}`);
+      
+      buttonsElement.appendChild(progressElement);
+    }
     this.tooltipElement.appendChild(buttonsElement);
     
     container.appendChild(this.tooltipElement);

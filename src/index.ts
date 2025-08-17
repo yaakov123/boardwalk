@@ -2,8 +2,8 @@
 import './styles/tour.css';
 import { Tour } from './tour';
 import { Step } from './step';
-import { setTheme, createTheme, ThemeOptions, ThemeName, customizeTheme, resetTheme } from './theme';
-import { KeyboardManager, createKeyboardManager, KeyBindings, DEFAULT_KEY_BINDINGS } from './keyboard';
+import { setTheme, createTheme, customizeTheme, resetTheme, themeManager } from './theme';
+import { KeyboardManager, createKeyboardManager, DEFAULT_KEY_BINDINGS } from './keyboard';
 import { 
   FocusManager, 
   applyAriaAttributes, 
@@ -15,7 +15,7 @@ import {
 
 export { Tour, Step };
 export type { TourOptions, StepOptions } from './types';
-export { setTheme, createTheme, customizeTheme, resetTheme };
+export { setTheme, createTheme, customizeTheme, resetTheme, themeManager };
 export { KeyboardManager, createKeyboardManager, DEFAULT_KEY_BINDINGS };
 export { 
   FocusManager, 
@@ -25,5 +25,6 @@ export {
   addScreenReaderText, 
   ARIA_ROLES 
 };
-export type { ThemeOptions, ThemeName, KeyBindings };
+export type { ThemeOptions, ThemeName } from './theme';
+export type { KeyBindings } from './keyboard';
 export * from './types';

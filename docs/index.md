@@ -5,21 +5,21 @@ layout: home
 hero:
   name: "Boardwalk"
   text: "Interactive product tour library for websites"
-  tagline: My great project tagline
+  tagline: Build delightful, accessible product tours in minutes.
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Get Started
+      link: /getting-started
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Tour Basics
+      link: /guides/tour-basics
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Accessible by default
+    details: ARIA roles, focus management, and live-region announcements built in
+  - title: Flexible interaction patterns
+    details: Button-driven, click-to-continue, and auto-progress with per-step overrides
+  - title: Theming and customization
+    details: Built-in themes, CSS variables, and a simple theme API for brand alignment
 ---
 

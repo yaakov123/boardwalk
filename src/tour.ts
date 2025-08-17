@@ -372,4 +372,20 @@ export class Tour {
   public getTargetWaitTimeout(): number {
     return this.options.targetWaitTimeout || this.defaultTargetWaitTimeout;
   }
+
+  /**
+   * Whether to show the step progress indicator (e.g., "1 of N")
+   */
+  public shouldShowProgress(): boolean {
+    // default true
+    return this.options.showProgress !== false;
+  }
+
+  /**
+   * Whether to prefix step titles with step numbers (e.g., "1. Title")
+   */
+  public shouldShowStepNumbers(): boolean {
+    // default true
+    return this.options.showStepNumbers !== false;
+  }
 }
