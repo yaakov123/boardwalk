@@ -25,7 +25,10 @@
     "test:e2e:debug": "PWDEBUG=1 playwright test",
     "test:e2e:codegen": "playwright codegen http://localhost:5174",
     "pree2e:server": "npm run build",
-    "e2e:server": "node ./scripts/e2e-server.mjs"
+    "e2e:server": "node ./scripts/e2e-server.mjs",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "keywords": [
     "tour",
@@ -44,6 +47,7 @@
     "vite": "^5.0.0",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-dts": "^3.6.0",
+    "vitepress": "^2.0.0-alpha.11",
     "vitest": "^3.2.4"
   }
 }

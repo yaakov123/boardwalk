@@ -3,3 +3,5 @@ node_modules
 playwright-report
 test-results
 playwright/.cache
+docs/.vitepress/dist
+docs/.vitepress/cache
