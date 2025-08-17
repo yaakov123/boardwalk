@@ -27,6 +27,8 @@ export interface TourOptions {
   interactionPattern?: InteractionPattern;
   /** Auto-progress delay in milliseconds (only used with auto-progress pattern) */
   autoProgressDelay?: number;
+  /** Default timeout (ms) to wait for target elements to appear when `waitForTarget` is enabled on steps */
+  targetWaitTimeout?: number;
   /** Callback when a custom key action is triggered */
   onKeyAction?: (action: string, key: string) => void;
   /** Callback when tour starts */
@@ -55,6 +57,12 @@ export interface StepOptions {
   className?: string;
   /** Whether to scroll to the element if not in viewport */
   scrollTo?: boolean;
+  /**
+   * Wait for the target to appear if it doesn't exist yet.
+   * If true, waits up to the tour's `targetWaitTimeout` (default 5000ms).
+   * If a number, waits up to that many milliseconds.
+   */
+  waitForTarget?: boolean | number;
   /** Override the tour's interaction pattern for this specific step */
   interactionPattern?: InteractionPattern;
   /** Override the tour's auto-progress delay for this specific step (in milliseconds) */

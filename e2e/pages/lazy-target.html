@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boardwalk E2E: Lazy Target</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; padding: 24px; }
+      .box { padding: 16px; border: 1px solid #ddd; border-radius: 8px; margin-top: 16px; }
+      #host { min-height: 140px; border: 1px dashed #ccc; border-radius: 6px; padding: 12px; margin-top: 12px; position: relative; }
+      #lazy-el { display: inline-block; padding: 8px 12px; background: #2c974b; color: white; border-radius: 4px; }
+      .controls { display: flex; gap: 8px; flex-wrap: wrap; }
+    </style>
+  </head>
+  <body>
+    <h1>Lazy-loaded Target Scenarios</h1>
+    <p id="desc">This page injects a target element after a delay to test waitForTarget support.</p>
+
+    <div class="box">
+      <div class="controls">
+        <button id="start-wait">Start Wait (true)</button>
+        <button id="start-number">Start Wait (1500ms)</button>
+        <button id="start-timeout">Start Wait (timeout)</button>
+      </div>
+      <div id="host" aria-label="injection host">
+        <!-- Lazy target will be injected here -->
+      </div>
+    </div>
+
+    <script type="module">
+      import { Tour } from '/dist/boardwalk.es.js';
+
+      // Utility helpers
+      function removeLazy() {
+        const el = document.getElementById('lazy-el');
+        if (el && el.parentNode) el.parentNode.removeChild(el);
+      }
+
+      function injectLazy(afterMs = 300) {
+        setTimeout(() => {
+          // If already present, do not duplicate
+          if (document.getElementById('lazy-el')) return;
+          const btn = document.createElement('button');
+          btn.id = 'lazy-el';
+          btn.textContent = 'Lazy Target';
+          document.getElementById('host').appendChild(btn);
+        }, afterMs);
+      }
+
+      function startWaitTrue() {
+        removeLazy();
+        injectLazy(300); // element appears after 300ms
+        const tour = new Tour({ id: 'lazy-true', title: 'Lazy True Tour', targetWaitTimeout: 1500 });
+        tour.addSteps([
+          { target: '#lazy-el', title: 'Lazy Step', content: 'I waited for the target', position: 'bottom', waitForTarget: true }
+        ]);
+        tour.start();
+      }
+
+      function startWaitNumber() {
+        removeLazy();
+        injectLazy(800); // element appears after 800ms
+        const tour = new Tour({ id: 'lazy-number', title: 'Lazy Number Tour' });
+        tour.addSteps([
+          { target: '#lazy-el', title: 'Numeric Wait', content: 'I waited 1500ms', position: 'bottom', waitForTarget: 1500 }
+        ]);
+        tour.start();
+      }
+
+      function startWaitTimeout() {
+        removeLazy();
+        // Do not inject target at all to force timeout
+        const tour = new Tour({ id: 'lazy-timeout', title: 'Lazy Timeout Tour' });
+        tour.addSteps([
+          { target: '#lazy-el', title: 'Will Timeout', content: 'Target never appears', position: 'bottom', waitForTarget: 300 }
+        ]);
+        tour.start();
+      }
+
+      document.getElementById('start-wait').addEventListener('click', startWaitTrue);
+      document.getElementById('start-number').addEventListener('click', startWaitNumber);
+      document.getElementById('start-timeout').addEventListener('click', startWaitTimeout);
+
+      // Signal readiness to tests
+      window.__boardwalkReady = true;
+      document.body.setAttribute('data-test-ready', 'true');
+    </script>
+  </body>
+</html>

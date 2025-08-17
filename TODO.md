@@ -17,8 +17,6 @@ This document outlines the features, improvements, and tasks needed to make the 
   - Skip/complete steps programmatically
   - Support for tour pausing and resuming
   - Custom flow control logic hooks
-  - [x] Fully customizable navigation strategy
-  - [x] Multiple interaction patterns (button, click-to-continue, auto-progress)
 
 - [ ] **Progress Persistence**
   - Save tour progress in localStorage/sessionStorage

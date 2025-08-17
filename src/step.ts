@@ -16,6 +16,9 @@ export class Step {
   private resizeHandler: (() => void) | null = null;
   private scrollHandler: (() => void) | null = null;
   private rafId: number | null = null;
+  private targetObserver: MutationObserver | null = null;
+  private targetWaitTimeoutId: number | null = null;
+  private cancelled: boolean = false;
   
   /**
    * Create a new tour step
@@ -42,10 +45,87 @@ export class Step {
     } else {
       this.targetElement = this.options.target;
     }
-    
-    if (!this.targetElement) {
-      console.warn(`Boardwalk: Target element not found for selector "${this.options.target}"`);
+  }
+
+  /**
+   * Clear any active observers/timeouts used while waiting for the target
+   */
+  private clearTargetWait(): void {
+    if (this.targetObserver) {
+      this.targetObserver.disconnect();
+      this.targetObserver = null;
     }
+    if (this.targetWaitTimeoutId !== null) {
+      window.clearTimeout(this.targetWaitTimeoutId);
+      this.targetWaitTimeoutId = null;
+    }
+  }
+
+  /**
+   * Wait for the target element to be present/connected up to the specified timeout.
+   * Returns true if found, false if timed out.
+   */
+  private waitForTarget(timeout: number): Promise<boolean> {
+    // Normalize timeout
+    const maxWait = Math.max(0, timeout || 0);
+
+    return new Promise<boolean>((resolve) => {
+      // If we were cancelled while waiting, exit early
+      if (this.cancelled) {
+        resolve(false);
+        return;
+      }
+
+      // Helper to finish and cleanup
+      const finish = (found: boolean) => {
+        this.clearTargetWait();
+        resolve(found);
+      };
+
+      // Immediate check (covers both selector and element cases)
+      this.initTargetElement();
+      if (this.targetElement && (this.targetElement.isConnected || document.contains(this.targetElement))) {
+        finish(true);
+        return;
+      }
+
+      // Nothing to wait for if no root to observe
+      const root = document.documentElement || document.body;
+      if (!root) {
+        finish(false);
+        return;
+      }
+
+      // Set timeout
+      this.targetWaitTimeoutId = window.setTimeout(() => {
+        finish(false);
+      }, maxWait);
+
+      // If target is a selector, watch DOM mutations and re-query
+      if (typeof this.options.target === 'string') {
+        const selector = this.options.target;
+        this.targetObserver = new MutationObserver(() => {
+          if (this.cancelled) return;
+          const el = document.querySelector(selector) as HTMLElement | null;
+          if (el) {
+            this.targetElement = el;
+            finish(true);
+          }
+        });
+        this.targetObserver.observe(root, { childList: true, subtree: true, attributes: true });
+      } else {
+        // If we have an element reference, watch for it to become connected
+        const elRef = this.options.target;
+        this.targetObserver = new MutationObserver(() => {
+          if (this.cancelled) return;
+          if (elRef && (elRef.isConnected || document.contains(elRef))) {
+            this.targetElement = elRef;
+            finish(true);
+          }
+        });
+        this.targetObserver.observe(root, { childList: true, subtree: true });
+      }
+    });
   }
   
   /**
@@ -484,12 +564,26 @@ export class Step {
    * Show this step
    */
   public async show(): Promise<void> {
+    // reset cancellation flag for this show cycle
+    this.cancelled = false;
+
     // Call beforeShow callback if provided
     if (this.options.beforeShow) {
       const shouldProceed = await Promise.resolve(this.options.beforeShow());
       if (!shouldProceed) return;
     }
     
+    // Ensure target is available (optionally wait for it if configured)
+    this.initTargetElement();
+    let targetReady = !!(this.targetElement && (this.targetElement.isConnected || document.contains(this.targetElement)));
+    const waitOpt = this.options.waitForTarget;
+    if (!targetReady && waitOpt) {
+      const timeout = typeof waitOpt === 'number' ? waitOpt : (this.tour.getTargetWaitTimeout ? this.tour.getTargetWaitTimeout() : 5000);
+      targetReady = await this.waitForTarget(timeout);
+      if (this.cancelled) return;
+      // Re-announce found target in case any timing changed layout
+    }
+
     // Announce step to screen readers
     const stepNumber = this.tour.getCurrentStepIndex() + 1;
     const totalSteps = this.tour.getTotalSteps();
@@ -536,6 +630,9 @@ export class Step {
    * Hide this step
    */
   public async hide(): Promise<void> {
+    // mark as cancelled to abort any in-flight wait
+    this.cancelled = true;
+    this.clearTargetWait();
     // Call beforeHide callback if provided
     if (this.options.beforeHide) {
       const shouldProceed = await Promise.resolve(this.options.beforeHide());

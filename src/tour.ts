@@ -18,6 +18,7 @@ export class Tour {
   private liveRegion: HTMLElement | null = null;
   private defaultInteractionPattern: InteractionPattern = 'button';
   private defaultAutoProgressDelay: number = 5000;
+  private defaultTargetWaitTimeout: number = 5000;
 
   /**
    * Create a new tour
@@ -40,6 +41,10 @@ export class Tour {
     
     if (this.options.autoProgressDelay) {
       this.defaultAutoProgressDelay = this.options.autoProgressDelay;
+    }
+    // Set default target wait timeout from options
+    if (this.options.targetWaitTimeout) {
+      this.defaultTargetWaitTimeout = this.options.targetWaitTimeout;
     }
     
     this.initDOM();
@@ -358,5 +363,13 @@ export class Tour {
   public setAutoProgressDelay(delay: number): Tour {
     this.options.autoProgressDelay = delay;
     return this;
+  }
+
+  /**
+   * Get the target wait timeout used when steps opt into waiting for targets
+   * @returns Timeout in milliseconds
+   */
+  public getTargetWaitTimeout(): number {
+    return this.options.targetWaitTimeout || this.defaultTargetWaitTimeout;
   }
 }
