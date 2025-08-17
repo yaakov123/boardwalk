@@ -13,6 +13,9 @@ export class Step {
   private tooltipElement: HTMLElement | null = null;
   private clickHandler: ((event: MouseEvent) => void) | null = null;
   private autoProgressTimeout: number | null = null;
+  private resizeHandler: (() => void) | null = null;
+  private scrollHandler: (() => void) | null = null;
+  private rafId: number | null = null;
   
   /**
    * Create a new tour step
@@ -42,6 +45,36 @@ export class Step {
     
     if (!this.targetElement) {
       console.warn(`Boardwalk: Target element not found for selector "${this.options.target}"`);
+    }
+  }
+  
+  /**
+   * Schedule a throttled position update using requestAnimationFrame
+   */
+  private scheduleUpdate(): void {
+    if (this.rafId !== null) return;
+    this.rafId = window.requestAnimationFrame(() => {
+      this.rafId = null;
+      this.updatePositions();
+    });
+  }
+  
+  /**
+   * Recalculate positions for tooltip and highlight overlay
+   */
+  private updatePositions(): void {
+    // Update tooltip position
+    if (this.tooltipElement && this.targetElement) {
+      this.positionTooltip();
+    }
+    
+    // Update highlight overlay position
+    if (this.element && this.targetElement && this.options.highlight) {
+      const rect = this.targetElement.getBoundingClientRect();
+      this.element.style.top = `${rect.top + window.scrollY}px`;
+      this.element.style.left = `${rect.left + window.scrollX}px`;
+      this.element.style.width = `${rect.width}px`;
+      this.element.style.height = `${rect.height}px`;
     }
   }
   
@@ -478,6 +511,12 @@ export class Step {
     this.createTooltip();
     this.positionTooltip();
     
+    // Bind window listeners to keep positions in sync on resize/scroll
+    this.resizeHandler = () => this.scheduleUpdate();
+    this.scrollHandler = () => this.scheduleUpdate();
+    window.addEventListener('resize', this.resizeHandler);
+    window.addEventListener('scroll', this.scrollHandler);
+    
     // Setup interaction pattern
     const interactionPattern = this.getInteractionPattern();
     
@@ -506,6 +545,20 @@ export class Step {
     // Clean up interaction patterns
     this.removeClickToContinue();
     this.clearAutoProgressTimeout();
+    
+    // Remove window listeners and any pending animation frame
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+      this.resizeHandler = null;
+    }
+    if (this.scrollHandler) {
+      window.removeEventListener('scroll', this.scrollHandler);
+      this.scrollHandler = null;
+    }
+    if (this.rafId !== null) {
+      window.cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
     
     // Remove highlight
     if (this.targetElement) {
