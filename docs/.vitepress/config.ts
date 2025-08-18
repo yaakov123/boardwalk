@@ -4,6 +4,10 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Boardwalk",
   description: "Interactive product tour library for websites",
+  head: [
+    // Expose Boardwalk UMD build as a global for examples/demos
+    ['script', { src: '/boardwalk/boardwalk.umd.js', defer: '' }]
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

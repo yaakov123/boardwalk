@@ -23,6 +23,9 @@ tour.addSteps([
 ]);
 ```
 
+## Live demo
+<DemoAutoProgress />
+
 ## Notes
 - When the last step finishes, `tour.end()` is called.
 - Users can still use keyboard navigation if enabled.

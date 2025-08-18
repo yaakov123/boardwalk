@@ -37,5 +37,8 @@ const tour = new Tour({
 });
 ```
 
+## Live demo
+<DemoKeyboard />
+
 ## Focus management
 When a tour starts, focus is trapped inside the tour container to ensure accessibility. Use Tab/Shift+Tab to cycle focus.

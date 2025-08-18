@@ -26,6 +26,10 @@
     "test:e2e:codegen": "playwright codegen http://localhost:5174",
     "pree2e:server": "npm run build",
     "e2e:server": "node ./scripts/e2e-server.mjs",
+    "copy:docs": "node ./scripts/copy-lib-to-docs.mjs",
+    "predocs:dev": "npm run build && npm run copy:docs",
+    "predocs:build": "npm run build && npm run copy:docs",
+    "predocs:preview": "npm run build && npm run copy:docs",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"

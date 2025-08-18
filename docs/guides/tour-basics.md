@@ -42,6 +42,9 @@ document.querySelector('#start')?.addEventListener('click', () => tour.start());
 // tour.end();
 ```
 
+## Live demo
+<DemoTourBasics />
+
 ## Patterns per step
 ```ts
 // Override tour default for a specific step

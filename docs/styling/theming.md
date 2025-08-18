@@ -23,6 +23,9 @@ setTheme('dark');    // Dark theme
 setTheme('modern');  // Modern purple theme
 ```
 
+## Live demo
+<DemoThemeSwitcher />
+
 ## Customizing Themes
 
 ### Basic Theme Customization
@@ -43,6 +46,9 @@ customizeTheme({
   borderRadius: 8,              // 8px border radius
 });
 ```
+
+## Live demo
+<DemoThemeCustomizer />
 
 ### Creating Custom Themes
 
@@ -66,6 +72,9 @@ createTheme('ocean', {
 // Use the custom theme
 setTheme('ocean');
 ```
+
+## Live demo
+<DemoCreateTheme />
 
 ## Theme Options
 

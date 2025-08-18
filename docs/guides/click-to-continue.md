@@ -21,3 +21,6 @@ tour.addSteps([
   { target: '#footer', content: 'Final tip' },
 ]);
 ```
+
+## Live demo
+<DemoClickToContinue />
